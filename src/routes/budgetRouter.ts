@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { BudgetController } from '../controllers/Budget'
-import { body, validationResult } from 'express-validator'
+import { body, param, validationResult } from 'express-validator'
 import { handleInputsErrors } from '../middleware/validation'
 const router = Router()
 
@@ -18,7 +18,12 @@ router.post('/',
 
 )
 
-router.get('/:id', BudgetController.getById)
+router.get('/:id', 
+    param('id')
+        .isInt().withMessage('ID no valido')
+        .custom(value => value > 0).withMessage('ID no valido'),
+    handleInputsErrors,
+    BudgetController.getById)
 
 router.put('/:id', BudgetController.update)
 
