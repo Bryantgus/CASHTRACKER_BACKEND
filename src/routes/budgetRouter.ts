@@ -6,26 +6,35 @@ const router = Router()
 
 router.get('/', BudgetController.getAll)
 
-router.post('/', 
+router.post('/',
     body('name')
         .notEmpty().withMessage("El nombre del presupuesto no puede ir vacio"),
     body('amount')
         .notEmpty().withMessage("La cantidad del presupuesto no puede ir vacio")
         .isNumeric().withMessage('Cantidad no valida')
-        .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),    
+        .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),
     handleInputsErrors,
     BudgetController.create
 
 )
 
-router.get('/:id', 
+router.get('/:id',
     param('id')
         .isInt().withMessage('ID no valido')
         .custom(value => value > 0).withMessage('ID no valido'),
     handleInputsErrors,
     BudgetController.getById)
 
-router.put('/:id', BudgetController.update)
+router.put('/:id',
+    param('id')
+        .isInt().withMessage('ID no valido')
+        .custom(value => value > 0).withMessage('ID no valido'),
+    body('amount')
+        .notEmpty().withMessage("La cantidad del presupuesto no puede ir vacio")
+        .isNumeric().withMessage('Cantidad no valida')
+        .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),
+    handleInputsErrors,
+    BudgetController.update)
 
 router.delete('/:id', BudgetController.deleteById)
 
