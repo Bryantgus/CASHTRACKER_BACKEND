@@ -5,6 +5,9 @@ import { handleInputsErrors } from '../middleware/validation'
 import { validateBudgetExists, validateBudgetId } from '../middleware/budget'
 const router = Router()
 
+router.param('budgetId', validateBudgetId)
+router.param('budgetId', validateBudgetExists)
+
 router.get('/', BudgetController.getAll)
 
 router.post('/',
@@ -18,22 +21,10 @@ router.post('/',
     BudgetController.create
 )
 
-router.get('/:id',
-    validateBudgetId,
-    validateBudgetExists,
-    BudgetController.getById
-)
+router.get('/:budgetId', BudgetController.getById)
 
-router.put('/:id',
-    validateBudgetId,
-    validateBudgetExists,
-    BudgetController.update
-)
+router.put('/:budgetId', BudgetController.update)
 
-router.delete('/:id',
-    validateBudgetId,
-    validateBudgetExists,
-    BudgetController.deleteById
-)
+router.delete('/:budgetId', BudgetController.deleteById)
 
 export default router
