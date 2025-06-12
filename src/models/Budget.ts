@@ -1,4 +1,5 @@
 import { Table, Column, DataType, HasMany, BelongsTo, ForeignKey, Model } from 'sequelize-typescript'
+import Expense from './Expense'
 
 //Decorator
 @Table({
@@ -16,6 +17,12 @@ class Budget extends Model {
         type: DataType.DECIMAL
     })
     declare amount: number
+
+    @HasMany(() => Expense, {
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    })
+    declare expenses: Expense[]
 }
 
 export default Budget
