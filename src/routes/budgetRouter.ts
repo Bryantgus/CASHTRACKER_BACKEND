@@ -26,11 +26,7 @@ router.get('/:id',
 
 router.put('/:id',
     validateBudgetId,
-    body('amount')
-        .notEmpty().withMessage("La cantidad del presupuesto no puede ir vacio")
-        .isNumeric().withMessage('Cantidad no valida')
-        .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),
-    handleInputsErrors,
+    validateBudgetExists,
     BudgetController.update
 )
 
