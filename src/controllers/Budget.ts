@@ -7,7 +7,7 @@ export class BudgetController {
         try {
             const budgets = await Budget.findAll({
                 order: [
-                    ['createAt', 'ASC']
+                    ['createdAt', 'ASC']
                 ]
             })
             res.json(budgets)
