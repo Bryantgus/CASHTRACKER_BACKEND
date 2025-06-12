@@ -15,7 +15,6 @@ router.post('/',
         .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),
     handleInputsErrors,
     BudgetController.create
-
 )
 
 router.get('/:id',
@@ -23,7 +22,8 @@ router.get('/:id',
         .isInt().withMessage('ID no valido')
         .custom(value => value > 0).withMessage('ID no valido'),
     handleInputsErrors,
-    BudgetController.getById)
+    BudgetController.getById
+)
 
 router.put('/:id',
     param('id')
@@ -34,8 +34,15 @@ router.put('/:id',
         .isNumeric().withMessage('Cantidad no valida')
         .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a 0"),
     handleInputsErrors,
-    BudgetController.update)
+    BudgetController.update
+)
 
-router.delete('/:id', BudgetController.deleteById)
+router.delete('/:id',
+    param('id')
+        .isInt().withMessage('ID no valido')
+        .custom(value => value > 0).withMessage('ID no valido'),
+    handleInputsErrors,
+    BudgetController.deleteById
+)
 
 export default router
