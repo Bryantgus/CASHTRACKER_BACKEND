@@ -4,6 +4,7 @@ import { body, param, validationResult } from 'express-validator'
 import { handleInputsErrors } from '../middleware/validation'
 import { validateBudgetExists, validateBudgetId, validateBudgetInput } from '../middleware/budget'
 import { ExpensesController } from '../controllers/ExpensesController'
+import { validateExpenseInput } from '../middleware/expense'
 const router = Router()
 
 router.param('budgetId', validateBudgetId)
@@ -31,9 +32,10 @@ router.delete('/:budgetId',
     BudgetController.deleteById)
 
 //Routes for Expenses
-router.get('/:budgetId/expenses', ExpensesController.getAll)
-
-router.post('/:budgetId/expenses', ExpensesController.create)
+router.post('/:budgetId/expenses', 
+    validateExpenseInput,
+    handleInputsErrors,
+    ExpensesController.create)
 
 router.get('/:budgetId/expenses/:expenseId', ExpensesController.getById)
 
