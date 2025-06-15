@@ -10,7 +10,7 @@ class User extends Model {
     @Column({
         type: DataType.STRING(100)
     })
-    declare user: string
+    declare name: string
 
     @AllowNull(false)
     @Column({
