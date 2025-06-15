@@ -10,8 +10,8 @@ declare global {
         }
     }
 }
-export const validateBudgetId = async (req: Request, res: Response, next: NextFunction) => {
-    await param('budgetId')
+export const validateExpensetId = async (req: Request, res: Response, next: NextFunction) => {
+    await param('expenseId')
         .isInt().withMessage('ID no valido')
         .custom(value => value > 0).withMessage('ID no valido')
         .run(req)
