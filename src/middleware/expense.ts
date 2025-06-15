@@ -2,11 +2,12 @@ import type { Request, Response, NextFunction } from "express";
 import { body, param, validationResult } from "express-validator";
 import { handleInputsErrors } from "./validation";
 import Budget from "../models/Budget";
+import Expense from "../models/Expense";
 
 declare global {
     namespace Express {
         interface Request {
-            budget?: Budget
+            expense?: Expense
         }
     }
 }
@@ -18,17 +19,17 @@ export const validateExpensetId = async (req: Request, res: Response, next: Next
     next()
 }
 
-export const validateBudgetExists = async (req: Request, res: Response, next: NextFunction) => {
+export const validateExpensetExists = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { budgetId } = req.params
-        const budget = await Budget.findByPk(budgetId)
+        const { expenseId } = req.params
+        const expense = await Expense.findByPk(expenseId)
 
-        if (!budget) {
+        if (!expense) {
             const error = new Error('Presupuesto no encontrado')
             res.status(404).json({ error: error.message })
             return
         }
-        req.budget = budget
+        req.expense = expense
 
         next()
     } catch (error) {

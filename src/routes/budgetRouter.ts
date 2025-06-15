@@ -4,13 +4,14 @@ import { body, param, validationResult } from 'express-validator'
 import { handleInputsErrors } from '../middleware/validation'
 import { validateBudgetExists, validateBudgetId, validateBudgetInput } from '../middleware/budget'
 import { ExpensesController } from '../controllers/ExpensesController'
-import { validateExpenseInput, validateExpensetId } from '../middleware/expense'
+import { validateExpenseInput, validateExpensetExists, validateExpensetId } from '../middleware/expense'
 const router = Router()
 
 router.param('budgetId', validateBudgetId)
 router.param('budgetId', validateBudgetExists)
 
 router.param('expenseId', validateExpensetId)
+router.param('expenseId', validateExpensetExists)
 
 
 router.get('/', BudgetController.getAll)
