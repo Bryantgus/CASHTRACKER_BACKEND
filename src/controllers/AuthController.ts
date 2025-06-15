@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import User from '../models/User'
+import { hashPassword } from '../utils/auth'
 
 export class AuthController {
   
@@ -15,13 +16,16 @@ export class AuthController {
         }
         
         try {
+            const { password } = req.body
             const user = new User(req.body)
+            user.password = await hashPassword(password)
             await user.save()
             res.json('Cuenta creada correctamente')
+            return
         } catch (error) {
             console.log(error);
             res.status(500).json({error: 'Hubo un error'})
-            
+            return
         }
     }
 }
