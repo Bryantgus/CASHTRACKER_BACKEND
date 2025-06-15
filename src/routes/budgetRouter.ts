@@ -46,6 +46,7 @@ router.get('/:budgetId/expenses/:expenseId',
     ExpensesController.getById)
 
 router.put('/:budgetId/expenses/:expenseId', 
+    validateExpenseInput,
     handleInputsErrors,
     ExpensesController.updateById)
 
