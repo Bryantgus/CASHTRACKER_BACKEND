@@ -43,4 +43,13 @@ router.post('/forgot-password',
     handleInputsErrors,
     AuthController.forgotPassword
 )
+
+router.post('/validate-token',
+    body('token')
+        .notEmpty()
+        .isLength({ min: 6, max: 6 })
+        .withMessage("Token no valido"),
+    handleInputsErrors,
+    AuthController.validateToken
+)
 export default router
