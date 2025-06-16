@@ -57,11 +57,17 @@ export class AuthController {
 
     static login = async (req: Request, res: Response) => {
         const { email } = req.body
-        const userExists = await User.findOne({ where: { email } })
+        const user = await User.findOne({ where: { email } })
 
-        if (!userExists) {
+        if (!user) {
             const error = new Error('Usuario no encontrado')
             res.status(409).json({ error: error.message })
+            return
+        }
+
+        if(!user.confirmed) {
+            const error = new Error('La cuenta no ha sido confirmada')
+            res.status(403).json({ error: error.message })
             return
         }
 
