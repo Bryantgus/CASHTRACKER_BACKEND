@@ -20,7 +20,6 @@ router.post('/createAccount',
 )
 
 router.post('/confirm-account',
-    limiter,
     body('token')
         .notEmpty()
         .isLength({ min: 6, max: 6 })
