@@ -3,6 +3,7 @@ import User from '../models/User'
 import { checkPassword, hashPassword } from '../utils/auth'
 import { generateToken } from '../utils/token'
 import { AuthEmail } from '../emails/AuthEmail'
+import { generateJWT } from '../utils/jwt'
 
 export class AuthController {
 
@@ -78,6 +79,8 @@ export class AuthController {
             return
         }
 
+        const token = generateJWT(user.id)
+        res.json(token)        
 
     }
 }
