@@ -24,6 +24,7 @@ router.post('/confirm-account',
         .notEmpty()
         .isLength({ min: 6, max: 6 })
         .withMessage("Token no valido"),
+    handleInputsErrors,
     AuthController.confirmAccount
 )
 
@@ -32,6 +33,14 @@ router.post('/login',
         .isEmail().withMessage('Email no valido'),
     body('password')
         .notEmpty().withMessage('El password es obligatorio'),
+    handleInputsErrors,
     AuthController.login
+)
+
+router.post('/forgot-password',
+    body('email')
+        .isEmail().withMessage('Email no valido'),
+    handleInputsErrors,
+    AuthController.forgotPassword
 )
 export default router

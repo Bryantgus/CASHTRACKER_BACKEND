@@ -83,6 +83,10 @@ export class AuthController {
         res.json(token)        
 
     }
+
+    static forgotPassword = async (req: Request, res: Response) => {
+    
+    }
 }
 
 export default AuthController
