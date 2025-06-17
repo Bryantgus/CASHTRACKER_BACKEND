@@ -46,7 +46,7 @@ export class AuthController {
         if (!user) {
             const error = new Error('Token no valido')
             res.status(401).json({ error: error.message })
-            return 
+            return
         }
 
         user.confirmed = true
@@ -66,21 +66,21 @@ export class AuthController {
             return
         }
 
-        if(!user.confirmed) {
+        if (!user.confirmed) {
             const error = new Error('La cuenta no ha sido confirmada')
             res.status(403).json({ error: error.message })
             return
         }
 
         const isPasswordCorrect = checkPassword(password, user.password)
-        if(!isPasswordCorrect) {
+        if (!isPasswordCorrect) {
             const error = new Error('La cuenta no ha sido confirmada')
             res.status(401).json({ error: error.message })
             return
         }
 
         const token = generateJWT(user.id)
-        res.json(token)        
+        res.json(token)
 
     }
 
@@ -106,16 +106,33 @@ export class AuthController {
 
     static validateToken = async (req: Request, res: Response) => {
         const { token } = req.body
-        const tokenExists = await User.findOne({ where: {token}})
+        const tokenExists = await User.findOne({ where: { token } })
 
-        if(!tokenExists) {
+        if (!tokenExists) {
             const error = new Error('Token no valido')
-            res.status(404).json({error: error.message})
+            res.status(404).json({ error: error.message })
             return
         }
-        console.log("Token valido");
-        
+        res.json("Token valido...");
     }
+
+    static resetPasswordWithToken = async (req: Request, res: Response) => {
+        const { token } = req.params
+        const { password } = req.body
+        const user = await User.findOne({ where: { token } })
+        if (!user) {
+            const error = new Error('Token no valido')
+            res.status(404).json({ error: error.message })
+            return
+        }
+        user.password = await hashPassword(password)
+        user.token = null
+        await user.save()
+        res.json('El password se modifico correctamente')
+
+
+    }
+
 }
 
 export default AuthController
