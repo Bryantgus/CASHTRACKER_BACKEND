@@ -57,16 +57,25 @@ router.post('/validate-token',
 router.post('/reset-password/:token',
     param('token')
         .notEmpty()
-        .isLength({min:6, max:6})
+        .isLength({ min: 6, max: 6 })
         .withMessage('Token no valido'),
     body('password')
-        .isLength({min:8}).withMessage('El password es muy corto, minimo 8 caracteres'),
+        .isLength({ min: 8 }).withMessage('El password es muy corto, minimo 8 caracteres'),
     handleInputsErrors,
     AuthController.resetPasswordWithToken
 )
 
-router.get('/user', 
+router.get('/user',
     authenticate,
     AuthController.user
+)
+
+router.post('/update-password',
+    body('password')
+        .notEmpty().withMessage('El password actual no puede ir vacio'),
+    body('password')
+        .isLength({ min: 8 }).withMessage('El password nuevo es muy corto, minimo 8 caracteres'),
+    authenticate,
+    AuthController.updateCurrentUserPassword
 )
 export default router
