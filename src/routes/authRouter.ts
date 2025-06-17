@@ -71,11 +71,18 @@ router.get('/user',
 )
 
 router.post('/update-password',
-    body('password')
+    authenticate,
+    body('current-password')
         .notEmpty().withMessage('El password actual no puede ir vacio'),
     body('password')
         .isLength({ min: 8 }).withMessage('El password nuevo es muy corto, minimo 8 caracteres'),
-    authenticate,
     AuthController.updateCurrentUserPassword
+)
+
+router.post('/check-password',
+    authenticate,
+    body('password')
+        .notEmpty().withMessage('El password actual no puede ir vacio'),
+    AuthController.checkPassword
 )
 export default router
