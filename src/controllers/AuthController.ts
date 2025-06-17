@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
 import User from '../models/User'
+import jwt from 'jsonwebtoken'
 import { checkPassword, hashPassword } from '../utils/auth'
 import { generateToken } from '../utils/token'
 import { AuthEmail } from '../emails/AuthEmail'
 import { generateJWT } from '../utils/jwt'
+import { addAttribute } from 'sequelize-typescript'
 
 export class AuthController {
 
@@ -129,8 +131,10 @@ export class AuthController {
         user.token = null
         await user.save()
         res.json('El password se modifico correctamente')
+    }
 
-
+    static user = async (req: Request, res: Response) => {
+        res.json(req.user)
     }
 
 }
